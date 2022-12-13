@@ -34,7 +34,11 @@ const destinos = () => {
         oferta = Number(prompt('No es posible ofertar!, Los vuelos para ofertar son: \n1-Bariloche\n2-Mendoza\n3-Salta\n4-Salir'));
     }
 
-    return oferta;
+    if(oferta < 4 ){
+        return oferta;
+    }else{
+        salir();
+    }
 
 }
 // Fn Ingrese de monto a ofertar para el destino seleccionado.
@@ -64,7 +68,6 @@ const compararSubasta = (precio) => {
         }else{
             salir();
         };
-
     }
 };
 
@@ -86,7 +89,6 @@ const seleccionCaso = (oferta) => {
             return "Salta";
         case 4:
             return salir();
-        break;
     }
 }
 
