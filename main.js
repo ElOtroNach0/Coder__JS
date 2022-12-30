@@ -47,18 +47,38 @@ const mostrarVuelos = () => {
        mainContainer.appendChild(cardVuelos);
 
         const boton = document.getElementById(`boton${vuelo.id}`);
-        const botonActivado = document.getElementById("botonActivado");
 
-        boton.addEventListener("click", ()=>{
-            botonActivado.classList.toggle("active");
+        boton.addEventListener("click", () => {
+            const divFormu = document.createElement("div");
+            divFormu.classList.add("col-xl-3", "col-md-6", "col-xs-12");
+            divFormu.innerHTML = `
+        <div class="card">
+            <div class="col-auto">
+                <input type="text" id="text-area" class="form-control">
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-secondary" id="botonActivado">Ofertar</button>
+            </div>
+        </div>
+       `
+       mainContainerFormulario.appendChild(divFormu);
+
+       subastar();
 
         })
-
 
         })
     };
 
 mostrarVuelos();
+
+const subastar = () => {
+    const textAerea = document.getElementById("text-area").value;
+    const botonActivado = document.getElementById("botonActivado")
+    botonActivado.addEventListener("click", ()=>{
+        console.log(textAerea)
+    })
+}
 
 const ultimaOferta = (value) => {
     const ofertaPrecio = arrayVuelos.find(vuelo => vuelo.precio === value);
