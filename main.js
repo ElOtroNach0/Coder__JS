@@ -5,7 +5,7 @@ class Persona{
         this.peso = peso;
         this.altura = altura;
         // this.fecha = fecha || New Date();
-        this.historailIMC = resultado;
+        this.historialIMC = resultado;
     }
 
     calcularIndice() {
@@ -32,8 +32,9 @@ const historialDom = document.querySelector("#container__mostrarDatos");
 btnCalcular.addEventListener("click", ()=>{
     const varibleAltura = document.querySelector("#input_cm").value;
     const variblePeso = document.querySelector("#input_kg").value;
+    const resultadoIMC = resultado;
     
-    const instanciar = new Persona(varibleAltura, variblePeso);
+    const instanciar = new Persona(varibleAltura, variblePeso, resultadoIMC);
     historial.push(instanciar);
 
     // Storage
@@ -41,6 +42,9 @@ btnCalcular.addEventListener("click", ()=>{
 
     // Fn para mostrar el restultado.
     mostrarResultado(instanciar);
+
+    // Fn para comprar los resultados
+    comprarImc(instanciar);
 })
 
 // Fn para motrar resultado y guardarlo en la clase.
@@ -53,6 +57,11 @@ const mostrarResultado = (instanciar) =>{
         <p>Tu IMC es: ${instanciar.calcularIndice()}</P>
     `
     resultadosDom.appendChild(div);
+
+    instanciar.historialIMC = instanciar.calcularIndice();
+    const resultado = instanciar.historialIMC;
+    console.log(resultado);
+
 }
 
 // Fn para mostrar datos historicos.
@@ -70,9 +79,53 @@ const mostrarHistorial = () =>{
 
 // Fn para comprar IMC obtenido con tabla.
 
-const comprarImc = () =>{
-    
+const comprarImc = (historia) =>{
+    if(historia.resultado < 18.5){
+        Swal.fire({
+            title: 'Por debajo',
+            text: 'Tu IMC esta por debajo del parametro saludable',
+            icon: 'info',
+        })
+    }else if(historia.resultado >= 18.5 && historia.resultado <= 24.9){
+        Swal.fire({
+            title: 'Saludable',
+            text: 'Tu IMC es saludasble',
+            icon: 'error',
+        })
+    }else{
+        Swal.fire({
+            title: 'Alto',
+            text: 'Tu IMC supera el parametro saludable',
+            icon: 'warning',
+        })
+    }
 }
+
+// Evento para limpiar el storage.
+
+const btnLimpiar = document.querySelector ("#btn__limpiar");
+
+btnLimpiar.addEventListener("click", ()=>{
+    Swal.fire({
+        title: 'Estas seguro?',
+        text: "Estas por borrar el historial completo",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, limpiar historial'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            historial = [];
+            mostrarHistorial();
+            localStorage.clear();
+          Swal.fire(
+            'Borrado!',
+            'success'
+          )
+        }
+      })
+})
 
 
 mostrarHistorial();
